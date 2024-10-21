@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Ledger from './components/Ledger';
 
-function App() {
+interface Transaction {
+  type: string;
+  amount: number;
+  date: string;
+  time: string;
+}
+
+const App: React.FC = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  const addTransaction = (type: string, amount: number, date: string, time: string) => {
+    const newTransaction: Transaction = { type, amount, date, time };
+    setTransactions([...transactions, newTransaction]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Balance Sheet Ledger</h1>
+      <Ledger transactions={transactions} addTransaction={addTransaction} />
     </div>
   );
-}
+};
 
 export default App;
